@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next.js Playground Color Theme Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .theme-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .theme-card {
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #7F5AF0, #38BDF8);
+        }
+
+        .dark-theme {
+            background: #0B0F19;
+            color: #E4E4E7;
+        }
+
+        .light-theme {
+            background: #F9FAFB;
+            color: #111827;
+            border: 1px solid #E5E7EB;
+        }
+
+        .theme-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .color-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .color-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .dark-theme .color-item {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .light-theme .color-item {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+
+        .color-info {
+            flex: 1;
+        }
+
+        .color-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .color-value {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-top: 2rem;
+        }
+
+        .tips-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .tip-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tip-item h4 {
+            margin-bottom: 0.5rem;
+            color: #fbbf24;
+        }
+
+        .accent-demo {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .accent-swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .theme-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Next.js Playground Color Theme</h1>
+            <p>Dual-Mode Color System (Dark + Light)</p>
+        </div>
+
+        <div class="theme-container">
+            <!-- Dark Theme -->
+            <div class="theme-card dark-theme">
+                <div class="theme-title">
+                    🌙 Dark Mode
+                </div>
+                <div class="color-grid">
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #0B0F19;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Primary Background</div>
+                            <div class="color-value">#0B0F19</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #151B2B;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Surface / Card BG</div>
+                            <div class="color-value">#151B2B</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #E4E4E7;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Primary Text</div>
+                            <div class="color-value">#E4E4E7</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #9CA3AF;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Secondary Text</div>
+                            <div class="color-value">#9CA3AF</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #7F5AF0;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Accent Color</div>
+                            <div class="color-value">#7F5AF0</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #0EA5E9;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Secondary Accent</div>
+                            <div class="color-value">#0EA5E9 / #FF6AC1</div>
+                            <div class="accent-demo">
+                                <div class="accent-swatch" style="background: #0EA5E9;"></div>
+                                <div class="accent-swatch" style="background: #FF6AC1;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #1E293B;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Border / Divider</div>
+                            <div class="color-value">#1E293B</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #38BDF8;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Link / Interactive</div>
+                            <div class="color-value">#38BDF8</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Light Theme -->
+            <div class="theme-card light-theme">
+                <div class="theme-title">
+                    ☀️ Light Mode
+                </div>
+                <div class="color-grid">
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #F9FAFB; border-color: #ccc;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Primary Background</div>
+                            <div class="color-value">#F9FAFB</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #FFFFFF; border-color: #ccc;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Surface / Card BG</div>
+                            <div class="color-value">#FFFFFF</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #111827;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Primary Text</div>
+                            <div class="color-value">#111827</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #4B5563;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Secondary Text</div>
+                            <div class="color-value">#4B5563</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #7F5AF0;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Accent Color</div>
+                            <div class="color-value">#7F5AF0</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #0EA5E9;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Secondary Accent</div>
+                            <div class="color-value">#0EA5E9 / #FF6AC1</div>
+                            <div class="accent-demo">
+                                <div class="accent-swatch" style="background: #0EA5E9;"></div>
+                                <div class="accent-swatch" style="background: #FF6AC1;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #E5E7EB;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Border / Divider</div>
+                            <div class="color-value">#E5E7EB</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #2563EB;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Link / Interactive</div>
+                            <div class="color-value">#2563EB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tips-section">
+            <div class="tips-title">
+                💡 Design Tips
+            </div>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <h4>Brand Consistency</h4>
+                    <p>Keep accent colors (#7F5AF0, #0EA5E9, #FF6AC1) consistent across both modes for strong brand identity.</p>
+                </div>
+                <div class="tip-item">
+                    <h4>Contrast & Readability</h4>
+                    <p>Carefully adjust background + text contrast, especially gray tones, to ensure accessibility standards.</p>
+                </div>
+                <div class="tip-item">
+                    <h4>Visual Effects</h4>
+                    <p>Use subtle shadows in light mode, and more contrast/outline effects in dark mode for depth.</p>
+                </div>
+                <div class="tip-item">
+                    <h4>Implementation</h4>
+                    <p>In Tailwind CSS, use CSS variables or dark: classes for smooth theme toggling functionality.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
