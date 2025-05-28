@@ -11,7 +11,9 @@ pnpx @better-auth/cli@latest migrate
 # * show only hidden files on a folder
 dir /ah
 
+# * show the list of remote repo's
+git remote -v
 
-
-
+# * check list of git branch
+git branch
 
