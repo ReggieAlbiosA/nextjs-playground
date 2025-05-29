@@ -36,6 +36,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# important project notes
+/project_notes/
+/project_notes(visual represented)/
+/Web_Architechture/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

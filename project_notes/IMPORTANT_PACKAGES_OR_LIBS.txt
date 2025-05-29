@@ -1,3 +1,0 @@
-# * nextjs theme switcher
-pnpm add next-themes
-
