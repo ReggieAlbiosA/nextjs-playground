@@ -1,2 +1,0 @@
-# ? what is cluster
-In online database hosting, a cluster refers to a group of connected servers (or nodes) that work together to handle your database — instead of running everything on a single machine.

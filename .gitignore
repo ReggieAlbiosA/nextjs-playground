@@ -36,10 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
-# important project notes
-/project_notes
-/project_notes(visual represented)
-/Web_Architechture
+# Ignore project notes and web architecture folders
+/project_notes/
+/project_notes(visual represented)/
+/Web_Architechture/
 
 # typescript
 *.tsbuildinfo
