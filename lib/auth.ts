@@ -13,4 +13,11 @@ export const auth = betterAuth({
         password: process.env.MYSQL_PASSWORD,
         database: process.env.MYSQL_DATABASE,
     }),
+
+    socialProviders: { 
+        github: { 
+            clientId: process.env.GITHUB_CLIENT_ID as string, 
+            clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
+        }, 
+    }, 
 })

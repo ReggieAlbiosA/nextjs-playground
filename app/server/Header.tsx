@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { BookText, Github } from "lucide-react";
+import { BookText } from "lucide-react";
+import SignInButton from "./components/SignInButton";
 
 export function Header() {
   return (
@@ -28,13 +29,8 @@ export function Header() {
             styled to stand out as requested. It uses card-bg and a border.
             The link should point to your NextAuth.js or other auth provider's GitHub route.
           */}
-          <Link
-            href="/api/auth/github"
-            className="card-bg primary-text flex items-center gap-2 rounded-md border border-divider px-3 py-1.5 text-sm font-medium transition-colors hover:bg-zinc-500/10"
-          >
-            <Github size={16} />
-            <span className="hidden sm:inline">Continue with&nbsp;</span>Github
-          </Link>
+          <SignInButton />
+
         </div>
       </div>
     </header>
