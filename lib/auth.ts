@@ -4,6 +4,8 @@ import { createPool } from "mysql2/promise";
 export const auth = betterAuth({
     baseURL: process.env.BETTER_AUTH_URL,
 
+    secret: process.env.BETTER_AUTH_SECRET,
+
     database: createPool({
         host: process.env.MYSQL_HOST,
         port: Number(process.env.MYSQL_PORT),
