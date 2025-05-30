@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
+// * dependencies
 import { ThemeProvider } from "next-themes";
+import { Toaster } from 'sonner'
+
+// * server components
 import { Header } from "./server/Header"; // Import the new Header
 
 const geistSans = Geist({
@@ -40,9 +45,18 @@ export default function RootLayout({
         >
           {/* The Header is placed inside the ThemeProvider to receive theme updates */}
           <Header />
+          
           <main className="container px-4 py-8 mx-auto sm:px-6 lg:px-8">
             {children}
           </main>
+
+          <Toaster
+            richColors  // Applies default styling for success, error, etc.
+            position="bottom-right" // Or your preferred position
+            theme="system" // Will adapt to light/dark mode based on system/next-themes
+            closeButton // Optionally show a close button
+            duration={5000} // Default duration for toasts
+          />
         </ThemeProvider>
       </body>
     </html>

@@ -1,14 +1,21 @@
 import Link from "next/link";
 import { BookText } from "lucide-react";
-import SignInButton from "./components/SignInButton";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import GithubSignIn from "../components/GithubSignIn";
+import UserProfile from "../components/UserProfile";
 
-export function Header() {
+export async function Header() {
+  // Await the session properly
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
     <header className="sticky top-0 z-50 w-full border-b primary-bg border-divider backdrop-blur-sm">
       <div className="container flex items-center justify-between h-16 px-4 mx-auto sm:px-6 lg:px-8">
         <Link href="/" className="text-lg font-bold primary-text">
-          {/* "Next.js" is styled with the accent color for branding */}
-          <span className="accent-color">Next.js</span> Playground
+          <span className="accent-color">Next.js Playground</span> 
         </Link>
 
         <div className="flex items-center gap-4">
@@ -22,15 +29,15 @@ export function Header() {
             <span className="hidden sm:inline">Docs</span>
           </Link>
 
-          {/* This separator is visible on larger screens for better spacing */}
+          {/* Separator */}
           <div className="hidden w-px h-6 border-l sm:block border-divider"></div>
 
-          {/* This "Continue with Github" button is the primary call-to-action,
-            styled to stand out as requested. It uses card-bg and a border.
-            The link should point to your NextAuth.js or other auth provider's GitHub route.
-          */}
-          <SignInButton />
-
+          {/* Conditional rendering based on session */}
+          {!session?.user ? (
+            <GithubSignIn />
+          ) : (
+            <UserProfile />
+          )}
         </div>
       </div>
     </header>

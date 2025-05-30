@@ -14,10 +14,10 @@ export const auth = betterAuth({
         database: process.env.MYSQL_DATABASE,
     }),
 
-    socialProviders: { 
+     socialProviders: {
         github: { 
             clientId: process.env.GITHUB_CLIENT_ID as string, 
             clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
         }, 
-    }, 
+    },
 })
