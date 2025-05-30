@@ -37,7 +37,6 @@ yarn-error.log*
 .vercel
 
 # Ignore project notes and web architecture folders
-# /components/
 /project_notes/
 /project_notes(visual represented)/
 /Web_Architechture/

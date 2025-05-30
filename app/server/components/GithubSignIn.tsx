@@ -29,16 +29,16 @@ export default function GithubSignIn() {
     <>
       {/* Overlay with smooth fade transitions */}
       {loading && (
-        <div className="inset-0 z-[9999] w-screen h-screen flex items-center absolute justify-center bg-black backdrop-blur-sm animate-in fade-in duration-300">
+        <div className="inset-0 z-[9999] w-screen h-screen flex items-center absolute dark:bg-black bg-white justify-center  backdrop-blur-sm animate-in fade-in duration-300">
           <div className="flex flex-col items-center gap-4 duration-500 delay-150 ">
-            <Loader2 className="w-8 h-8 text-white animate-spin" />
-            <span className="text-sm font-medium text-white">Redirecting...</span>
+            <Loader2 className="w-8 h-8 animate-spin" />
+            <span className="text-sm font-medium ">Redirecting...</span>
           </div>
         </div>
       )}
 
       <Button
-        className="card-bg primary-text flex items-center gap-2 rounded-md border border-divider px-3 py-1.5 text-sm font-medium transition-colors hover:bg-zinc-500/10 disabled:opacity-50"
+        className="card-bg primary-text flex items-center gap-2 rounded-md border border-divider px-3 cursor-pointer py-1.5 text-sm font-medium transition-colors hover:card-bg/10 disabled:opacity-50"
         onClick={handleGithubSignIn}
         disabled={loading}
       >

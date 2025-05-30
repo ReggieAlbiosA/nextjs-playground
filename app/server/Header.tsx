@@ -2,8 +2,8 @@ import Link from "next/link";
 import { BookText } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import GithubSignIn from "../components/GithubSignIn";
-import UserProfile from "../components/UserProfile";
+import GithubSignIn from "./components/GithubSignIn";
+import UserProfile from "./components/UserProfile";
 
 export async function Header() {
   // Await the session properly

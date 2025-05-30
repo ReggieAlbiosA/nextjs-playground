@@ -55,10 +55,10 @@ export default function UserProfile() {
     <>
       {/* Logout Overlay with smooth transitions */}
       {isLoggingOut && (
-         <div className="inset-0 z-[9999] w-screen h-screen flex items-center absolute justify-center bg-black backdrop-blur-sm     animate-in fade-in duration-300">
+         <div className="inset-0 z-[9999] w-screen h-screen flex items-center absolute justify-center backdrop-blur-sm dark:bg-black bg-white    animate-in fade-in duration-300">
           <div className="flex flex-col items-center gap-4 duration-500 delay-150 ">
-            <Loader2 className="w-8 h-8 text-white animate-spin" />
-            <span className="text-sm font-medium text-white">Signing Out...</span>
+            <Loader2 className="w-8 h-8 animate-spin" />
+            <span className="text-sm font-medium ">Signing Out...</span>
           </div>
         </div>
       )}
