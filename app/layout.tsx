@@ -30,6 +30,7 @@ export const metadata: Metadata = {
   description: "A modern application built with Next.js.",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
