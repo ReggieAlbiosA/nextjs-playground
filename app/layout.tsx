@@ -9,6 +9,9 @@ import { Toaster } from 'sonner'
 // * server components
 import { Header } from "./server/Header"; // Import the new Header
 
+// * client components
+import AuthSync from "./server/components/AuthSync";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -45,6 +48,8 @@ export default function RootLayout({
         >
           {/* The Header is placed inside the ThemeProvider to receive theme updates */}
           <Header />
+
+          <AuthSync />
           
           <main className="container px-4 py-8 mx-auto sm:px-6 lg:px-8">
             {children}

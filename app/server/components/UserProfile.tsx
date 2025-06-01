@@ -17,7 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { LogOut, User, Settings, Loader2 } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getInitials } from "@/utils/stringUtils";
 
 
@@ -31,12 +31,26 @@ export default function UserProfile() {
       await signOut({
         fetchOptions: {
           onSuccess: () => {
-            window.location.href = "/";
+            localStorage.setItem("auth-event", JSON.stringify({ event: "signed-out", timestamp: Date.now() }));
+            window.location.replace("/");
           }
         }
       });
-    
   };
+    useEffect(() => {
+    const handleStorageEvent = (event: StorageEvent) => {
+      if (event.key === 'logout') {
+        window.location.replace("/"); // Redirect to home page on logout
+      }
+    };
+
+    window.addEventListener('storage', handleStorageEvent);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageEvent);
+    };
+  }, []);
+
 
   if (isPending) {
     return (
@@ -46,7 +60,6 @@ export default function UserProfile() {
     );
   }
 
-  // Don't render anything if no session
   if (!session?.user) {
     return null;
   }
@@ -72,9 +85,9 @@ export default function UserProfile() {
                 src={session.user.image ?? undefined} 
                 alt={session.user.name ?? 'User avatar'} 
               />
-              <AvatarFallback className="absolute primary-text card-bg">
+              {/* <AvatarFallback className="absolute primary-text card-bg">
                  <span className="absolute inset-0">{getInitials(session.user.name) || getInitials(session.user.email)}</span>
-              </AvatarFallback>
+              </AvatarFallback> */}
             </Avatar>
             
         </DropdownMenuTrigger>

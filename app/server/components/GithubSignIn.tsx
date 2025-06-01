@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { signIn } from "@/lib/auth-client"
 
+
 export default function GithubSignIn() {
   const [loading, setLoading] = useState(false)
 
@@ -14,13 +15,15 @@ export default function GithubSignIn() {
           provider: "github",
          },
         {
-
           onRequest() {
             setLoading(true)
           },
           onError() {
             setLoading(false)
           },
+          onSuccess() {
+            localStorage.setItem("auth-event", JSON.stringify({ event: "signed-in", timestamp: Date.now() }));
+          }
         }
       )
   }
