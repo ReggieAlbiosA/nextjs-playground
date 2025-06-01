@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
+
 
 // * dependencies
 import { ThemeProvider } from "next-themes";
@@ -13,7 +16,7 @@ import { Header } from "./server/Header"; // Import the new Header
 import AuthSync from "./server/components/AuthSync";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
+  variable: "--font-geist-sans",                                    
   subsets: ["latin"],
 });
 
@@ -63,6 +66,9 @@ export default function RootLayout({
             duration={5000} // Default duration for toasts
           />
         </ThemeProvider>
+
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
