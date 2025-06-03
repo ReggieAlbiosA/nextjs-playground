@@ -36,10 +36,10 @@ export default function GithubSignInButton({ className, showText = true }: { cla
   return (
     <>
       {loading && (
-        <div className="absolute inset-0 z-[9999] w-screen h-screen flex items-center dark:bg-black bg-white justify-center  animate-in fade-in duration-300">
+        <div className="absolute inset-0 z-[9999] w-screen h-screen flex items-center secondary-bg justify-center  animate-in fade-in duration-300">
           <div className="flex flex-col items-center gap-4 duration-500 delay-150 ">
-            <Loader2 className="w-8 h-8 animate-spin primary-text" />
-            <span className="text-sm font-medium primary-text">
+            <Loader2 className="w-8 h-8 animate-spin" />
+            <span className="text-sm font-medium">
               Redirecting...
             </span>
           </div>
@@ -47,7 +47,7 @@ export default function GithubSignInButton({ className, showText = true }: { cla
       )}
 
       <Button
-        className={className ?? "card-bg primary-text flex items-center gap-2 rounded-md border border-divider px-3 cursor-pointer py-1.5 text-sm font-medium transition-colors hover:black/10 disabled:opacity-50"}
+        className={className ?? "card-bg flex items-center gap-2 rounded-md border px-3 cursor-pointer py-1.5 text-sm font-medium transition-colors hover:card-bg/10 disabled:opacity-50"}
         onClick={handleGithubSignInClick}
         disabled={loading}
       >

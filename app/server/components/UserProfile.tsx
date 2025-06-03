@@ -136,10 +136,10 @@ export default function UserProfile() {
   return (
     <>
       {isLoggingOut && (
-        <div className="fixed inset-0 z-[9999] w-screen h-screen flex items-center justify-center dark:bg-black bg-white backdrop-blur-sm animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[9999] w-screen h-screen flex items-center justify-center primary-bg backdrop-blur-sm animate-in fade-in duration-300">
           <div className="flex flex-col items-center gap-4 duration-500 delay-150">
-            <Loader2 className="w-8 h-8 animate-spin primary-text" />
-            <span className="text-sm font-medium primary-text">Signing Out...</span>
+            <Loader2 className="w-8 h-8 animate-spin" />
+            <span className="text-sm font-medium">Signing Out...</span>
           </div>
         </div>
       )}
@@ -155,7 +155,7 @@ export default function UserProfile() {
               src={session.user.image ?? undefined}
               alt={session.user.name ?? "User avatar"}
             />
-            <AvatarFallback className="font-medium primary-text card-bg">
+            <AvatarFallback className="font-medium card-bg">
               {getInitials(session.user.name) || getInitials(session.user.email)}
             </AvatarFallback>
           </Avatar>
@@ -164,7 +164,7 @@ export default function UserProfile() {
         {isMenuOpen && (
           <div
             ref={dropdownRef}
-            className="absolute right-0 top-full mt-2 w-64 p-2 shadow-2xl card-bg border-divider border rounded-lg z-[100] primary-text"
+            className="absolute right-0 top-full mt-2 w-64 p-2 shadow-2xl card-bg  border rounded-lg z-[100]"
           >
             <div className="p-3 font-normal">
               <div className="flex items-center space-x-3">
@@ -174,16 +174,16 @@ export default function UserProfile() {
                     alt={session.user.name ?? "User avatar"}
                     className="object-cover"
                   />
-                  <AvatarFallback className="text-sm font-medium border primary-text card-bg border-divider">
+                  <AvatarFallback className="text-sm font-medium border card-bg">
                     {getInitials(session.user.name) || getInitials(session.user.email)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col flex-1 min-w-0 space-y-1">
-                  <p className="text-sm font-semibold leading-none truncate primary-text">
+                  <p className="text-sm font-semibold leading-none truncate">
                     {session.user.name || "User"}
                   </p>
                   {session.user.email && (
-                    <p className="text-xs leading-none truncate secondary-text">
+                    <p className="text-xs leading-none truncate">
                       {session.user.email}
                     </p>
                   )}
@@ -191,10 +191,10 @@ export default function UserProfile() {
               </div>
             </div>
 
-            <hr className="my-2 border-divider" />
+            <hr className="my-2" />
 
             <button
-              className="w-full p-3 text-left rounded-md cursor-pointer primary-text hover:bg-zinc-500/10 focus:secondary-bg group"
+              className="w-full p-3 text-left rounded-md cursor-pointer primary-text hover:bg-zinc-500/10 group"
               onClick={() => {
                 toast.info("Profile page coming soon!");
                 setIsMenuOpen(false);
@@ -202,7 +202,7 @@ export default function UserProfile() {
             >
               <div className="flex items-center w-full space-x-3">
                 <div className="p-1.5 rounded-md bg-zinc-500/5 group-hover:bg-zinc-500/10">
-                  <User className="w-4 h-4 secondary-text group-hover:primary-text" />
+                  <User className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-medium">Profile</span>
@@ -211,7 +211,7 @@ export default function UserProfile() {
             </button>
 
             <button
-              className="w-full p-3 text-left rounded-md cursor-pointer primary-text hover:bg-zinc-500/10 focus:secondary-bg group"
+              className="w-full p-3 text-left rounded-md cursor-pointer hover:bg-zinc-500/10 group"
               onClick={() => {
                 toast.info("Settings page coming soon!");
                 setIsMenuOpen(false);
@@ -219,7 +219,7 @@ export default function UserProfile() {
             >
               <div className="flex items-center w-full space-x-3">
                 <div className="p-1.5 rounded-md bg-zinc-500/5 group-hover:bg-zinc-500/10">
-                  <Settings className="w-4 h-4 secondary-text group-hover:primary-text" />
+                  <Settings className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-medium">Settings</span>
@@ -227,7 +227,7 @@ export default function UserProfile() {
               </div>
             </button>
 
-            <hr className="my-2 border-divider" />
+            <hr className="my-2" />
 
             <button
               onClick={() => {
@@ -235,7 +235,7 @@ export default function UserProfile() {
                 setIsMenuOpen(false);
               }}
               disabled={isLoggingOut}
-              className="w-full p-3 text-left rounded-md cursor-pointer primary-text hover:bg-red-500/10 focus:bg-red-500/10 group disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full p-3 text-left rounded-md cursor-pointer hover:bg-red-500/10 focus:bg-red-500/10 group disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="flex items-center w-full space-x-3">
                 <div className="p-1.5 rounded-md bg-red-500/10 group-hover:bg-red-500/20">

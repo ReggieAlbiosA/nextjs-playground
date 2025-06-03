@@ -48,6 +48,7 @@ export function MobileMenu({ sessionUser }: MobileMenuProps) {
       {
         onRequest: () => {
           setLoading(true);
+
         },
         onError: (ctx) => {
           setLoading(false);
@@ -89,16 +90,16 @@ export function MobileMenu({ sessionUser }: MobileMenuProps) {
   };
 
   const menuItemClassName: string =
-    "w-full flex items-center space-x-3 px-3 py-4 text-sm primary-text hover:bg-gray-200 dark:hover:bg-black/20 cursor-pointer";
+    "w-full flex items-center space-x-3 px-3 py-4 text-sm hover:bg-gray-200 dark:hover:bg-black/20 cursor-pointer";
   const iconWrapperClassName: string = "p-1.5 rounded-md bg-zinc-500/10";
 
   return (
     <>
       {loading && (
-        <div className="absolute inset-0 z-[9999] w-screen h-screen flex items-center dark:bg-black bg-white justify-center animate-in fade-in duration-300">
+        <div className="absolute inset-0 z-[9999] w-screen h-screen flex items-center primary-bg justify-center animate-in fade-in duration-300">
           <div className="flex flex-col items-center gap-4 duration-500 delay-150">
-            <Loader2 className="w-8 h-8 animate-spin primary-text" />
-            <span className="text-sm font-medium primary-text">
+            <Loader2 className="w-8 h-8 animate-spin" />
+            <span className="text-sm font-medium">
               Redirecting...
             </span>
           </div>
@@ -108,7 +109,7 @@ export function MobileMenu({ sessionUser }: MobileMenuProps) {
       <Button
         variant="ghost"
         size="icon"
-        className="cursor-pointer sm:hidden primary-text hover:accent-color focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="cursor-pointer sm:hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         onClick={toggleMenu}
       >
         <Menu size={20} />
@@ -126,30 +127,30 @@ export function MobileMenu({ sessionUser }: MobileMenuProps) {
                         src={sessionUser.image ?? undefined}
                         alt={sessionUser.name ?? "User avatar"}
                       />
-                      <AvatarFallback className="font-medium primary-text card-bg">
+                      <AvatarFallback className="font-medium card-bg">
                         {getInitials(sessionUser.name) ||
                           getInitials(sessionUser.email)}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col flex-1 min-w-0">
-                      <p className="text-sm font-semibold leading-none truncate primary-text">
+                      <p className="text-sm font-semibold leading-none truncate">
                         {sessionUser.name || "User"}
                       </p>
                       {sessionUser.email && (
-                        <p className="text-xs leading-none truncate secondary-text">
+                        <p className="text-xs leading-none truncate">
                           {sessionUser.email}
                         </p>
                       )}
                     </div>
                   </div>
                 </div>
-                <hr className="border-divider" />
+                <hr />
                 <button
                   onClick={() => toast.info("Profile page coming soon!")}
                   className={menuItemClassName}
                 >
                   <div className={iconWrapperClassName}>
-                    <User size={16} className="secondary-text" />
+                    <User size={16} />
                   </div>
                   <span>Profile</span>
                 </button>
@@ -158,11 +159,11 @@ export function MobileMenu({ sessionUser }: MobileMenuProps) {
                   className={menuItemClassName}
                 >
                   <div className={iconWrapperClassName}>
-                    <Settings size={16} className="secondary-text" />
+                    <Settings size={16} />
                   </div>
                   <span>Settings</span>
                 </button>
-                <hr className="border-divider" />
+                <hr />
               </>
             )}
             <Link
@@ -172,11 +173,11 @@ export function MobileMenu({ sessionUser }: MobileMenuProps) {
               className={menuItemClassName}
             >
               <div className={iconWrapperClassName}>
-                <BookText size={16} className="secondary-text" />
+                <BookText size={16} />
               </div>
               <span>Next.js Docs</span>
             </Link>
-            <hr className="border-divider" />
+            <hr />
             {!sessionUser ? (
               <button
                 onClick={handleGithubSignInClick}
@@ -187,7 +188,7 @@ export function MobileMenu({ sessionUser }: MobileMenuProps) {
                   <Loader2 size={16} className="mr-3 animate-spin" />
                 ) : (
                   <div className={iconWrapperClassName}>
-                    <Github size={16} className="secondary-text" />
+                    <Github size={16} />
                   </div>
                 )}
                 <span>Continue with Github</span>

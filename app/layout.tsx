@@ -42,7 +42,7 @@ export default function RootLayout({
         including overscroll areas, matches the theme.
       */}
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased primary-bg primary-text`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased primary-bg`}
       >
         <ThemeProvider
           attribute="class"

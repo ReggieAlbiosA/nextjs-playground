@@ -16,8 +16,8 @@ export async function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b primary-bg border-divider backdrop-blur-sm"> {/* z-40 to be below modal overlays z-[100] or z-[9999] */}
       <div className="container flex items-center justify-between h-16 px-4 mx-auto sm:px-6 lg:px-8">
-        <Link href="/" className="text-lg font-bold primary-text">
-          <span className="accent-color">Next.js Playground</span>
+        <Link href="/" className="text-lg font-bold">  
+          <span>Next.js Playground</span>
         </Link>
 
         <div className="flex items-center gap-2">
@@ -30,14 +30,13 @@ export async function Header() {
                   href="https://nextjs.org/docs"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="secondary-text hover:primary-text flex items-center gap-1.5 text-sm transition-colors px-2 py-1.5 rounded-md hover:secondary-bg"
+                  className="flex items-center gap-1.5 text-sm transition-colors px-2 py-1.5 rounded-md"
                 >
                   <BookText size={16} />
                   <span>Docs</span>
                 </Link>
 
-                <div className="w-px h-6 border-l border-divider"></div>
-
+                <div className="w-px h-6 border-l"></div>
                   {!session?.user ? (
                     <GithubSignInButton />
                   ) : (

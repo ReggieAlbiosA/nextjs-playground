@@ -53,7 +53,7 @@ export function ThemeSwitcher() {
         size="icon"
         onClick={toggleDropdown}
         aria-label="Toggle theme"
-        className="transition-colors cursor-pointer secondary-text hover:primary-text"
+        className="cursor-pointer"
       >
         {resolvedTheme === "dark" ? (
           <Sun size={54} />
@@ -63,7 +63,7 @@ export function ThemeSwitcher() {
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 z-[200]  w-34 mt-2 bg-white dark:bg-[#09090b] border rounded-md shadow-lg ">
+        <div className="absolute right-0 z-[200]  w-34 mt-2 primary-bg border rounded-md shadow-lg ">
           <div className="flex flex-col p-1 gap-y-1">
             <button
               onClick={() => handleThemeSelect("light")}
