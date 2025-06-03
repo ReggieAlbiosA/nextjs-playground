@@ -136,7 +136,7 @@ export default function UserProfile() {
   return (
     <>
       {isLoggingOut && (
-        <div className="fixed inset-0 z-[9999] w-screen h-screen flex items-center justify-center dark:bg-black/80 bg-white/80 backdrop-blur-sm animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[9999] w-screen h-screen flex items-center justify-center dark:bg-black bg-white backdrop-blur-sm animate-in fade-in duration-300">
           <div className="flex flex-col items-center gap-4 duration-500 delay-150">
             <Loader2 className="w-8 h-8 animate-spin primary-text" />
             <span className="text-sm font-medium primary-text">Signing Out...</span>
