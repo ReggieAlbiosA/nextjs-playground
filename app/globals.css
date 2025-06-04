@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import 'prismjs/themes/prism-okaidia.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -112,6 +113,80 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
+html.dark code[class*="language-"],
+html.dark pre[class*="language-"] {
+  color: #f8f8f2; /* Text color from Okaidia */
+  /* CRITICAL: Ensure Prism's <pre> background doesn't override your component's Tailwind bg */
+  background: transparent !important; /* Or ensure component <pre> bg is more specific */
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 1em;
+  text-align: left;
+  white-space: pre; /* Prism themes expect this */
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Add more specific token styles from your chosen dark theme, prefixed with html.dark */
+/* Example for Okaidia: */
+html.dark .token.comment,
+html.dark .token.prolog,
+html.dark .token.doctype,
+html.dark .token.cdata {
+  color: #6272a4;
+}
+html.dark .token.punctuation {
+  color: #f8f8f2;
+}
+
+/* Styles for WebKit-based browsers (Chrome, Safari, Edge, Opera) */
+.animated-code-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Light Mode Scrollbar Track & Thumb (Default) */
+.animated-code-scrollbar::-webkit-scrollbar-track {
+  background: #e2e8f0; /* slate-200 */
+  border-radius: 10px;
+}
+.animated-code-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #94a3b8; /* slate-400 */
+  border-radius: 10px;
+  border: 2px solid #e2e8f0; /* Using track color for 'padding' */
+  background-clip: content-box;
+}
+.animated-code-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b; /* slate-500 */
+}
+.animated-code-scrollbar { /* Firefox light mode */
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #e2e8f0; /* thumb track */
+}
+/* Dark Mode Scrollbar Overrides */
+html.dark .animated-code-scrollbar::-webkit-scrollbar-track {
+  background: #334155; /* slate-700 */
+}
+html.dark .animated-code-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #64748B; /* slate-500 */
+  border-color: #334155; /* Match dark track for padding */
+}
+html.dark .animated-code-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #94A3B8; /* slate-400 */
+}
+html.dark .animated-code-scrollbar { /* Firefox dark mode */
+  scrollbar-color: #64748B #334155; /* thumb track */
+}
+
 @layer base {
     * {
       @apply border-border outline-ring/50;
@@ -119,33 +194,37 @@
     body {
       @apply bg-background text-foreground;
     }
-    primary-bg{
-      @apply bg-[#F9FAFB] dark:bg-[#0B0F19];
+    .primary-bg{
+      @apply bg-white dark:bg-[#09090b];
     }
-    card-bg{
+    .secondary-bg{
+      @apply bg-white dark:bg-black;
+    }
+    .card-bg{
       @apply bg-[#FFFFFF] dark:bg-[#151B2B];
     }
-    primary-text{
+    /* 
+    .primary-text{
       @apply text-[#E4E4E7] dark:text-[#111827];
     }
-    secondary-text{
+    .secondary-text{
       @apply text-[#9CA3AF] dark:text-[#4B5563];
     }
-    accent-color{
+    .accent-color{
       @apply text-[#7F5AF0] dark:text-[#7F5AF0];
     }
-    secondary-accent{
+    .secondary-accent{
       @apply text-[#0EA5E9] dark:text-[#0EA5E9];
     }
-    border-divider{
+    .border-divider{
       @apply border-[#E5E7EB] dark:border-[#1E293B];
     }
-    link-interactive{
+    .link-interactive{
       @apply text-[#38BDF8] dark:text-[#2563EB];
     }
-    error-warning{
+    .error-warning{
       @apply text-[#F43F5E] dark:text-[#F43F5E];
-    }
+    } */
   }
 
 
