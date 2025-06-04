@@ -30,6 +30,7 @@ export const metadata: Metadata = {
   description: "A modern application built with Next.js.",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -41,7 +42,7 @@ export default function RootLayout({
         including overscroll areas, matches the theme.
       */}
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased primary-bg primary-text`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased primary-bg`}
       >
         <ThemeProvider
           attribute="class"

@@ -119,33 +119,37 @@
     body {
       @apply bg-background text-foreground;
     }
-    primary-bg{
-      @apply bg-[#F9FAFB] dark:bg-[#0B0F19];
+    .primary-bg{
+      @apply bg-white dark:bg-[#09090b];
     }
-    card-bg{
+    .secondary-bg{
+      @apply bg-white dark:bg-black;
+    }
+    .card-bg{
       @apply bg-[#FFFFFF] dark:bg-[#151B2B];
     }
-    primary-text{
+    /* 
+    .primary-text{
       @apply text-[#E4E4E7] dark:text-[#111827];
     }
-    secondary-text{
+    .secondary-text{
       @apply text-[#9CA3AF] dark:text-[#4B5563];
     }
-    accent-color{
+    .accent-color{
       @apply text-[#7F5AF0] dark:text-[#7F5AF0];
     }
-    secondary-accent{
+    .secondary-accent{
       @apply text-[#0EA5E9] dark:text-[#0EA5E9];
     }
-    border-divider{
+    .border-divider{
       @apply border-[#E5E7EB] dark:border-[#1E293B];
     }
-    link-interactive{
+    .link-interactive{
       @apply text-[#38BDF8] dark:text-[#2563EB];
     }
-    error-warning{
+    .error-warning{
       @apply text-[#F43F5E] dark:text-[#F43F5E];
-    }
+    } */
   }
 
 
