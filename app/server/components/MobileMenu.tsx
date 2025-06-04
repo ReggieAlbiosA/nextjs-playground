@@ -96,7 +96,7 @@ export function MobileMenu({ sessionUser }: MobileMenuProps) {
   return (
     <>
       {loading && (
-        <div className="absolute inset-0 z-[9999] w-screen h-screen flex items-center primary-bg justify-center animate-in fade-in duration-300">
+        <div className="absolute inset-0 z-[9999] w-screen h-screen flex items-center secondary-bg justify-center animate-in fade-in duration-300">
           <div className="flex flex-col items-center gap-4 duration-500 delay-150">
             <Loader2 className="w-8 h-8 animate-spin" />
             <span className="text-sm font-medium">

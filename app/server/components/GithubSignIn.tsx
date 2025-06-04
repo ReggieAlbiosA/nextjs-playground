@@ -5,6 +5,7 @@ import { Loader2, Github } from "lucide-react";
 import { Button } from "@/components/ui/button"; // Assuming you have a Button component
 import { useState } from "react";
 import { signIn } from "@/lib/auth-client"; // Ensure this path is correct
+import { createPortal } from "react-dom";
 
 export default function GithubSignInButton({ className, showText = true }: { className?: string, showText?: boolean }) {
   const [loading, setLoading] = useState(false);
@@ -35,15 +36,17 @@ export default function GithubSignInButton({ className, showText = true }: { cla
 
   return (
     <>
-      {loading && (
-        <div className="absolute inset-0 z-[9999] w-screen h-screen flex items-center secondary-bg justify-center  animate-in fade-in duration-300">
-          <div className="flex flex-col items-center gap-4 duration-500 delay-150 ">
+      {/* Use createPortal to render the overlay at the body level */}
+      {loading && typeof window !== "undefined" && createPortal(
+        <div className="fixed inset-0 z-[9999] w-screen h-screen flex items-center justify-center secondary-bg backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="flex flex-col items-center gap-4 duration-500 delay-150">
             <Loader2 className="w-8 h-8 animate-spin" />
             <span className="text-sm font-medium">
               Redirecting...
             </span>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       <Button
