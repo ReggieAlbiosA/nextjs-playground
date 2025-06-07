@@ -10,14 +10,13 @@ import { Toaster } from 'sonner'
 import { auth } from "@/lib/auth";
 import { headers, cookies } from "next/headers";
 
-
 // * server components
 import { Header } from "./server/Header";
 
 // * client components
-import AuthSync from "./server/components/AuthSync";
+import AuthSync from "./server/client/AuthSync";
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "./@user/server/SideBar";
+import { SideBar } from "./@user/server/SideBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,17 +35,19 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  user, // Only include if you have a @user parallel route folder
+  user,
 }: Readonly<{
   children: React.ReactNode;
-  user?: React.ReactNode; // Made optional in case @user route doesn't exist
+  user?: React.ReactNode;
 }>) {
   const session = await auth.api.getSession({
     headers: await headers()
   })
 
-  const cookieStore = await cookies()
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
+  // --- GETTER LOGIC MOVED HERE ---
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+  const selectedMode = cookieStore.get("sidebar-selected-mode")?.value || "codebase";
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -60,54 +61,45 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           {!session?.user ? (
-            // No sidebar for signed out users
-            <div className="flex w-full min-h-screen">
-              <div className="flex flex-col flex-1">
-                <Header />
-                
-                <main className="container flex-1 px-4 py-8 mx-auto sm:px-6 lg:px-8">
-                  {children}
-                </main>
-              </div>
+            <div className="flex flex-col flex-1">
+              <Header />
+              <main className="container flex-1 px-4 py-8 mx-auto sm:px-6 lg:px-8">
+                {children}
+              </main>
             </div>
           ) : (
-            // Sidebar layout for signed in users
             <SidebarProvider
-             style={{
-                "--sidebar-width": "17rem",
+              style={{
+                "--sidebar-width": "18rem",
                 "--sidebar-width-mobile": "14rem",
               } as React.CSSProperties}
               defaultOpen={defaultOpen}
-              
             >
-              <div className="flex w-full min-h-screen">
-                <AppSidebar />
-                
-                <div className="flex flex-col flex-1">
-                  <Header />
-                  
-                  <main className="container flex-1 px-4 py-8 mx-auto sm:px-6 lg:px-8">
-                    {user || children} {/* Fallback to children if user route doesn't exist */}
-                  </main>
-                </div>
+              <SideBar initialMode={selectedMode} />
+
+              <div className="flex flex-col flex-1">
+                <Header />
+                <main className="container flex-1 px-4 py-8 mx-auto sm:px-6 lg:px-8">
+                  {user || children}
+                </main>
               </div>
             </SidebarProvider>
           )}
 
-            <AuthSync />
+          <AuthSync />
 
-            <Toaster
-              richColors
-              position="bottom-right"
-              theme="system"
-              closeButton
-              duration={5000}
-            />
+          <Toaster
+            richColors
+            position="bottom-right"
+            theme="system"
+            closeButton
+            duration={5000}
+          />
         </ThemeProvider>
 
-        <SpeedInsights /> 
+        <SpeedInsights />
         <Analytics />
       </body>
-    </html> 
+    </html>
   );
 }
