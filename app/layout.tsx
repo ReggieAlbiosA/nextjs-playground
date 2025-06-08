@@ -54,9 +54,9 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
       >
-        <ThemeProvider
+        <ThemeProvider    
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="system" 
           enableSystem
           disableTransitionOnChange
         >

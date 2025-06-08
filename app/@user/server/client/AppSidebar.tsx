@@ -1,8 +1,8 @@
-// @/app/@user/server/SideBar.tsx
+// @/app/@user/server/client/AppSidebar.tsx
 
 "use client";
 
-import { useState } from "react";
+// REMOVE useState from imports, you no longer need it here
 import { Sidebar, SidebarContent, SidebarHeader } from "@/components/ui/sidebar";
 import {
     Select,
@@ -13,12 +13,7 @@ import {
 } from "@/components/ui/select";
 import { FileCode, Network, Eye } from "lucide-react";
 
-// --- CLIENT-SIDE COOKIE SETTER ---
-const setCookie = (name: string, value: string, days: number = 30): void => {
-    const expires = new Date();
-    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
-};
+// REMOVE the setCookie function, we moved it to the wrapper.
 
 // Select options for easy reference
 const selectOptions = [
@@ -30,21 +25,20 @@ const selectOptions = [
 export function AppSidebar({
     children,
     logo,
-    initialMode
+    selectedMode,     // NEW PROP
+    onModeChange,     // NEW PROP
 }: {
     children: React.ReactNode,
     logo: React.ReactNode,
-    initialMode: string
+    selectedMode: string, // NEW PROP
+    onModeChange: (value: string) => void, // NEW PROP
 }) {
-    const [selectedMode, setSelectedMode] = useState(initialMode);
+    
+    // REMOVE THIS STATE MANAGEMENT
+    // const [selectedMode, setSelectedMode] = useState(initialMode);
 
-    // When the mode changes, we now reload the page to get the new server-rendered links.
-    const handleModeChange = (value: string) => {
-        setSelectedMode(value);
-        setCookie("sidebar-selected-mode", value, 30);
-        // Reload the page to apply the new URL segments from the server
-        window.location.reload();
-    };
+    // REMOVE THIS FUNCTION
+    // const handleModeChange = (value: string) => { ... };
 
     return (
         <Sidebar className="border-r border-border/40">
@@ -54,7 +48,8 @@ export function AppSidebar({
 
             <SidebarContent className="px-2">
                 <div className="p-2 border-b border-border/40">
-                    <Select value={selectedMode} onValueChange={handleModeChange}>
+                    {/* The Select component now uses the props for its value and handler */}
+                    <Select value={selectedMode} onValueChange={onModeChange}>
                         <SelectTrigger className="w-full transition-colors duration-200 h-11 border-border/60 hover:border-border focus:ring-2 focus:ring-blue-500/20">
                             <SelectValue placeholder="Select Mode" />
                         </SelectTrigger>
@@ -74,6 +69,7 @@ export function AppSidebar({
                         </SelectContent>
                     </Select>
                 </div>
+                {/* The children (NavMain components) are now passed from the wrapper */}
                 {children}
             </SidebarContent>
         </Sidebar>

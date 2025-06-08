@@ -1,5 +1,8 @@
+// @/app/@user/server/client/NavMain.tsx
+
 "use client"
 
+import { usePathname, useRouter } from 'next/navigation' 
 import { ChevronRight } from "lucide-react"
 import {
   Collapsible,
@@ -14,47 +17,70 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
 } from "@/components/ui/sidebar"
-import Link from "next/link"
 import { ICONS, type IconName } from "./IconMap"
 
-// The NavItem type now references itself, allowing for infinite nesting
 export type NavItem = {
   title: string;
   url: string;
   icon?: IconName;
-  isActive?: boolean;
-  items?: NavItem[]; // Changed from a simple object to NavItem[]
+  items?: NavItem[];
 };
 
-// Internal component that calls itself to render nested items
 function RecursiveNavItem({ item }: { item: NavItem }) {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const hasChildren = item.items && item.items.length > 0;
   const Icon = item.icon ? ICONS[item.icon] : null;
 
-  // Base Case: If there are no children, render a simple link item
+  // 1. The robust path with .trim()
+  const itemPath = item.url.split('?')[0].trim();
+
+  // 2. Logic for highlighting: an exact match (===)
+  const isLinkExactlyActive = pathname === itemPath;
+
+  // 3. Logic for keeping parent open: a partial match (startsWith)
+  const isSectionActive = pathname.startsWith(itemPath);
+
+  // 4. Class for text-only highlighting
+  const activeClassNames = "data-[active=true]:text-blue-600 dark:data-[active=true]:text-blue-400";
+
+
+  // Base Case: If there are no children
   if (!hasChildren) {
     return (
       <SidebarMenuItem>
-        <SidebarMenuButton asChild tooltip={item.title}>
-          <Link href={item.url} className="flex items-center w-full">
-             {Icon && <Icon className="w-4 h-4" />}
-             <span>{item.title}</span>
-          </Link>
+        <SidebarMenuButton
+          tooltip={item.title}
+          // Use the EXACT match for highlighting
+          data-active={isLinkExactlyActive}
+          className={activeClassNames}
+          onClick={() => router.push(item.url)}
+        >
+          {Icon && <Icon className="w-4 h-4" />}
+          <span>{item.title}</span>
         </SidebarMenuButton>
       </SidebarMenuItem>
     )
   }
 
-  // Recursive Step: If there are children, render a collapsible group
+  // Recursive Step: If there are children
   return (
     <Collapsible
       asChild
-      defaultOpen={item.isActive}
+      // Use the SECTION match to keep the collapsible open
+      defaultOpen={isSectionActive}
       className="group/collapsible"
     >
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
-          <SidebarMenuButton tooltip={item.title}>
+          <SidebarMenuButton
+            tooltip={item.title}
+            // Use the EXACT match for highlighting
+            data-active={isLinkExactlyActive}
+            className={activeClassNames}
+            onClick={() => router.push(item.url)}
+          >
             {Icon && <Icon className="w-4 h-4" />}
             <span>{item.title}</span>
             <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -62,7 +88,6 @@ function RecursiveNavItem({ item }: { item: NavItem }) {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <SidebarMenuSub>
-            {/* Call this same component for each child */}
             {item.items?.map((child) => (
               <RecursiveNavItem key={child.title} item={child} />
             ))}
@@ -72,6 +97,7 @@ function RecursiveNavItem({ item }: { item: NavItem }) {
     </Collapsible>
   );
 }
+
 
 export function NavMain({
   items,
