@@ -16,9 +16,9 @@ import { Header } from "./server/Header";
 // * client components
 import AuthSync from "./server/client/AuthSync";
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { SideBar } from "./@user/server/SideBar";
+import { SideBar } from "./@user/server/Sidebar";
 
-const geistSans = Geist({
+const geistSans = Geist({                                               
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });

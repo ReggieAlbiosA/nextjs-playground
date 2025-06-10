@@ -33,7 +33,7 @@ const addModeToLinks = (items: NavItem[], mode: string): NavItem[] => {
 const setCookie = (name: string, value: string, days: number = 30): void => {
     const expires = new Date();
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;`;
 };
 
 
@@ -59,7 +59,7 @@ export function SidebarWrapper({
     const handleModeChange = (newMode: string) => {
         setSelectedMode(newMode);
         setCookie("sidebar-selected-mode", newMode, 30);
-        router.push(`${pathname}?view=${newMode}`);
+        router.prefetch(`${pathname}?view=${newMode}`);
     };
 
     const modifiedBuildingItems = useMemo(

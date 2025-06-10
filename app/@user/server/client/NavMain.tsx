@@ -55,7 +55,7 @@ function RecursiveNavItem({ item }: { item: NavItem }) {
           // Use the EXACT match for highlighting
           data-active={isLinkExactlyActive}
           className={activeClassNames}
-          onClick={() => router.push(item.url)}
+          onClick={() => router.prefetch(item.url)}
         >
           {Icon && <Icon className="w-4 h-4" />}
           <span>{item.title}</span>
@@ -79,7 +79,7 @@ function RecursiveNavItem({ item }: { item: NavItem }) {
             // Use the EXACT match for highlighting
             data-active={isLinkExactlyActive}
             className={activeClassNames}
-            onClick={() => router.push(item.url)}
+            onClick={() => router.prefetch(item.url)}
           >
             {Icon && <Icon className="w-4 h-4" />}
             <span>{item.title}</span>
