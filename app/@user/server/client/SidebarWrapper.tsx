@@ -59,7 +59,7 @@ export function SidebarWrapper({
     const handleModeChange = (newMode: string) => {
         setSelectedMode(newMode);
         setCookie("sidebar-selected-mode", newMode, 30);
-        router.prefetch(`${pathname}?view=${newMode}`);
+        router.push(`${pathname}?view=${newMode}`);
     };
 
     const modifiedBuildingItems = useMemo(

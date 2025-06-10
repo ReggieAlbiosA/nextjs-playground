@@ -79,7 +79,8 @@ function RecursiveNavItem({ item }: { item: NavItem }) {
             // Use the EXACT match for highlighting
             data-active={isLinkExactlyActive}
             className={activeClassNames}
-            onClick={() => router.prefetch(item.url)}
+            onClick={() => router.push(item.url)}
+            onMouseEnter={() => router.prefetch}
           >
             {Icon && <Icon className="w-4 h-4" />}
             <span>{item.title}</span>
