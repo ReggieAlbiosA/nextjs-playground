@@ -57,11 +57,12 @@ export function SidebarWrapper({
     const [selectedMode, setSelectedMode] = useState(initialMode);
 
     const handleModeChange = (newMode: string) => {
-        setSelectedMode(newMode);
-        setCookie("sidebar-selected-mode", newMode, 30);
-        router.push(`${pathname}?view=${newMode}`);
-    };
-
+    setSelectedMode(newMode);
+    setCookie("sidebar-selected-mode", newMode, 30);
+    // Correctly call the prefetch method with the target URL
+    router.prefetch(`${pathname}?view=${newMode}`); 
+    router.push(`${pathname}?view=${newMode}`);
+};
     const modifiedBuildingItems = useMemo(
         () => addModeToLinks(buildingItems, selectedMode),
         [buildingItems, selectedMode]
@@ -77,6 +78,7 @@ export function SidebarWrapper({
             logo={logo}
             selectedMode={selectedMode}
             onModeChange={handleModeChange}
+            
         >
             <NavMain
                 items={modifiedBuildingItems}

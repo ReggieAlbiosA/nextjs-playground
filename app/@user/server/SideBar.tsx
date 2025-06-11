@@ -55,7 +55,7 @@
     const buildingYourApplicationItems: NavItem[] = [
         {
             title: "Routing",
-            url: "  /docs/routing",
+            url: "/docs/routing",
             icon: "Route",
                 items: [
                     { title: "Route Handlers", url: "/docs/routing/route-handlers" },
