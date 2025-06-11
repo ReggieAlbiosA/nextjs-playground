@@ -11,19 +11,16 @@ import { NavMain } from "../client/NavMain";
 const addModeToLinks = (items: NavItem[], mode: string): NavItem[] => {
     return items.map(item => {
         const newItem = { ...item };
+        // 1. Always get the clean base URL
         const baseUrl = item.url.split('?')[0].trim();
         const hasChildren = item.items && item.items.length > 0;
 
+        // 2. Apply the view mode query parameter to EVERY item's URL
+        newItem.url = `${baseUrl}?view=${mode}`;
+
+        // 3. If it's a parent, simply recurse for its children
         if (hasChildren) {
-            // This is a PARENT link.
-            // Keep its URL clean and static.
-            newItem.url = baseUrl;
-            // However, we still need to process its children recursively.
             newItem.items = addModeToLinks(item.items ?? [], mode);
-        } else {
-            // This is a CHILD link.
-            // Append the view mode to its URL.
-            newItem.url = `${baseUrl}?view=${mode}`;    
         }
         
         return newItem;
