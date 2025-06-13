@@ -1,8 +1,3 @@
 {
-  "functions": {
-    "app/api/**/*.ts": {
-      "runtime": "nodejs-18.x",
-      "region": "sin1" 
-    }
-  }
+  "regions": ["sin1"]
 }
