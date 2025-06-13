@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 // --- Main GET Handler ---
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { 'rendering-modes': string } }
+  { params }: { params: Promise<{ 'rendering-modes': string }> }
 ) {
-  const mode = params['rendering-modes'];
+  const { 'rendering-modes': mode } = await params;
 
   // ** THE FIX: Using a more resilient, alternative Binance API endpoint **
   const binanceApiUrl = 'https://api3.binance.com/api/v3/ticker/price?symbol=BTCUSDT';
