@@ -1,59 +1,56 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// --- Main GET Handler ---
+// ✅ Force Node.js runtime — avoids Binance blocking Edge functions
+export const runtime = 'nodejs';
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ 'rendering-modes': string }> }
 ) {
   const { 'rendering-modes': mode } = await params;
 
-  // ** THE FIX: Using a more resilient, alternative Binance API endpoint **
   const binanceApiUrl = 'https://api3.binance.com/api/v3/ticker/price?symbol=BTCUSDT';
 
-  // We will keep the User-Agent header as it is still best practice
   const fetchOptions = {
     headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+      'Accept': 'application/json',
     }
   };
 
   try {
+    const fetchBinance = async (fetchConfig: RequestInit) => {
+      const response = await fetch(binanceApiUrl, fetchConfig);
+      if (!response.ok) {
+        throw new Error(`Binance API responded with status: ${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      return parseFloat(data.price);
+    };
+
     switch (mode) {
       case 'ssg': {
-        const response = await fetch(binanceApiUrl, {
+        const price = await fetchBinance({
           ...fetchOptions,
-          cache: 'force-cache'
+          cache: 'force-cache',
         });
-        if (!response.ok) {
-          // Throw a more descriptive error
-          throw new Error(`Binance API responded with status: ${response.status} ${response.statusText}`);
-        }
-        const data = await response.json();
-        return NextResponse.json({ type: 'SSG', price: parseFloat(data.price) });
+        return NextResponse.json({ type: 'SSG', price });
       }
 
       case 'isr': {
-        const response = await fetch(binanceApiUrl, {
+        const price = await fetchBinance({
           ...fetchOptions,
-          next: { revalidate: 10 }
+          next: { revalidate: 10 },
         });
-        if (!response.ok) {
-          throw new Error(`Binance API responded with status: ${response.status} ${response.statusText}`);
-        }
-        const data = await response.json();
-        return NextResponse.json({ type: 'ISR', price: parseFloat(data.price) });
+        return NextResponse.json({ type: 'ISR', price });
       }
 
       case 'ssr': {
-        const response = await fetch(binanceApiUrl, {
+        const price = await fetchBinance({
           ...fetchOptions,
-          cache: 'no-store'
+          cache: 'no-store',
         });
-        if (!response.ok) {
-          throw new Error(`Binance API responded with status: ${response.status} ${response.statusText}`);
-        }
-        const data = await response.json();
-        return NextResponse.json({ type: 'SSR', price: parseFloat(data.price) });
+        return NextResponse.json({ type: 'SSR', price });
       }
 
       default: {
@@ -61,20 +58,10 @@ export async function GET(
       }
     }
   } catch (error) {
-    // Enhanced logging to capture the real error if it persists
     console.error(`[API Route Error - ${mode}]:`, error);
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    
-    // Add the underlying cause to the error response for better debugging
-    let causeMessage = '';
-    if (error instanceof Error && error.cause) {
-      causeMessage = ` | Cause: ${JSON.stringify(error.cause)}`;
-    }
-
-    return NextResponse.json({
-        error: 'Failed to fetch price data',
-        details: `${errorMessage}${causeMessage}`
-      },
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json(
+      { error: 'Failed to fetch price data', details: message },
       { status: 500 }
     );
   }
