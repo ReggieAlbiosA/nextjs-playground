@@ -1,65 +1,57 @@
-// app/api/[rendering-modes]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-
-type CacheOptions = { revalidate: number } | undefined;
-
-/**
- * Fetches the latest BTC price from Binance's REST API with a specified cache strategy.
- */
-async function fetchBinancePrice(cacheOptions: CacheOptions): Promise<number> {
-  // Binance API endpoint for a specific symbol's price
-  const response = await fetch(
-    'https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT',
-    {
-      // The 'next' object is how Next.js handles caching and revalidation
-      next: cacheOptions,
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch from Binance with status: ${response.status}`);
-  }
-
-  const data = await response.json();
-  const price = parseFloat(data.price);
-
-  if (isNaN(price)) {
-    throw new Error("Price data from Binance API is not in the expected format.");
-  }
-
-  return price;
-}
 
 // --- Main GET Handler ---
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ 'rendering-modes': string }> }
 ) {
-  const resolvedParams = await params;
-  const mode = resolvedParams['rendering-modes'];
+  const { 'rendering-modes': mode } = await params;
+  const binanceApiUrl = 'https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT';
 
   try {
-     switch (mode) {
+    switch (mode) {
       case 'ssg': {
-        // Using 'force-cache' for SSG
-        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT', { cache: 'force-cache' });
+        // Using 'force-cache' to explicitly tell Next.js to cache this result indefinitely.
+        // This is the core of Static Site Generation (SSG).
+        const response = await fetch(binanceApiUrl, { cache: 'force-cache' });
+        
+        if (!response.ok) throw new Error(`Binance API error: ${response.status}`);
+
         const data = await response.json();
         const price = parseFloat(data.price);
+
         return NextResponse.json({ type: 'SSG', price });
       }
+
       case 'isr': {
-        // ISR still REQUIRES the 'next.revalidate' object
-        const price = await fetchBinancePrice({ revalidate: 10 });
-        return NextResponse.json({ type: 'ISR', price });
-      }
-      case 'ssr': {
-        // Using 'no-store' for SSR
-        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT', { cache: 'no-store' });
+        // NOTE: Time-based revalidation (ISR) REQUIRES the `next` object.
+        // There is no `cache` string equivalent for this behavior.
+        const response = await fetch(binanceApiUrl, { next: { revalidate: 10 } });
+        
+        if (!response.ok) throw new Error(`Binance API error: ${response.status}`);
+        
         const data = await response.json();
         const price = parseFloat(data.price);
+        
+        return NextResponse.json({ type: 'ISR', price });
+      }
+
+      case 'ssr': {
+        // Using 'no-store' to explicitly tell Next.js to fetch fresh data on every request.
+        // This is the core of Server-Side Rendering (SSR).
+        const response = await fetch(binanceApiUrl, { cache: 'no-store' });
+        
+        if (!response.ok) throw new Error(`Binance API error: ${response.status}`);
+
+        const data = await response.json();
+        const price = parseFloat(data.price);
+
         return NextResponse.json({ type: 'SSR', price });
       }
-      // ... default case
+
+      default: {
+        return NextResponse.json({ error: 'Invalid rendering mode' }, { status: 400 });
+      }
     }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

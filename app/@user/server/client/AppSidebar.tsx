@@ -34,11 +34,6 @@ export function AppSidebar({
     onModeChange: (value: string) => void, // NEW PROP
 }) {
     
-    // REMOVE THIS STATE MANAGEMENT
-    // const [selectedMode, setSelectedMode] = useState(initialMode);
-
-    // REMOVE THIS FUNCTION
-    // const handleModeChange = (value: string) => { ... };
 
     return (
         <Sidebar className="border-r border-border/40">
