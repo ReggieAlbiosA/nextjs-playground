@@ -1,45 +1,30 @@
+// app/api/[rendering-modes]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
-// Ensure your environment variable is named CMC_API_KEY in your .env file
-const CMC_API_KEY = process.env.CMC_API_KEY;
-
-if (!CMC_API_KEY) {
-  throw new Error("Missing CoinMarketCap API Key. Please set the CMC_API_KEY environment variable.");
-}
-
-type CacheOptions = RequestInit['cache'] | { revalidate: number };
+type CacheOptions = { revalidate: number } | undefined;
 
 /**
- * Fetches the latest BTC price from CoinMarketCap with a specified cache strategy.
- * @param cacheOptions - The caching strategy ('no-store' or { revalidate: number }).
- * @returns The price of BTC as a number.
+ * Fetches the latest BTC price from Binance's REST API with a specified cache strategy.
  */
-async function fetchCMCPrice(cacheOptions: CacheOptions): Promise<number> {
-  const fetchOptions: RequestInit = {
-    headers: {
-      'X-CMC_PRO_API_KEY': CMC_API_KEY as string,
-    },
-    next: typeof cacheOptions === 'object' ? cacheOptions : undefined,
-    cache: typeof cacheOptions === 'string' ? cacheOptions : undefined,
-  };
-
-  // FIX: Using the correct 'quotes' endpoint to fetch a specific symbol (BTC)
+async function fetchBinancePrice(cacheOptions: CacheOptions): Promise<number> {
+  // Binance API endpoint for a specific symbol's price
   const response = await fetch(
-    'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC',
-    fetchOptions
+    'https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT',
+    {
+      // The 'next' object is how Next.js handles caching and revalidation
+      next: cacheOptions,
+    }
   );
 
   if (!response.ok) {
-    const errorBody = await response.text();
-    console.error(`CoinMarketCap API Error (${response.status}): ${errorBody}`);
-    throw new Error(`Failed to fetch from CoinMarketCap with status: ${response.status}`);
+    throw new Error(`Failed to fetch from Binance with status: ${response.status}`);
   }
 
   const data = await response.json();
-  const price = data?.data?.BTC?.quote?.USD?.price;
+  const price = parseFloat(data.price);
 
-  if (typeof price !== 'number') {
-    throw new Error("Price data from CoinMarketCap API is not in the expected format.");
+  if (isNaN(price)) {
+    throw new Error("Price data from Binance API is not in the expected format.");
   }
 
   return price;
@@ -54,26 +39,29 @@ export async function GET(
   const mode = resolvedParams['rendering-modes'];
 
   try {
-    switch (mode) {
+     switch (mode) {
       case 'ssg': {
-        // SSG returns a static, hardcoded value.
-        const price = await fetchCMCPrice('force-cache'); // Use static cache for SSG
+        // Using 'force-cache' for SSG
+        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT', { cache: 'force-cache' });
+        const data = await response.json();
+        const price = parseFloat(data.price);
         return NextResponse.json({ type: 'SSG', price });
       }
       case 'isr': {
-        const price = await fetchCMCPrice({ revalidate: 10 }); // 10-second revalidation
+        // ISR still REQUIRES the 'next.revalidate' object
+        const price = await fetchBinancePrice({ revalidate: 10 });
         return NextResponse.json({ type: 'ISR', price });
       }
       case 'ssr': {
-        const price = await fetchCMCPrice('no-store'); // Fetch fresh every request
+        // Using 'no-store' for SSR
+        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT', { cache: 'no-store' });
+        const data = await response.json();
+        const price = parseFloat(data.price);
         return NextResponse.json({ type: 'SSR', price });
       }
-      default: {
-        return NextResponse.json({ error: 'Invalid rendering mode' }, { status: 400 });
-      }
+      // ... default case
     }
   } catch (error) {
-    console.error(`[API Route Error - ${mode}]:`, error);
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     return NextResponse.json({ error: 'Failed to fetch price data', details: errorMessage }, { status: 500 });
   }

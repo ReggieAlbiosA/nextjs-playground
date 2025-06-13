@@ -3,7 +3,7 @@
 import React from 'react';
 // NEW: Import the navigation data from the central file
 import { buildingYourApplicationItems, apiReferenceItems, NavItem } from '@/lib/docs-navigation';
-import { RouteHandlers } from './server/route-handlers/RouteHandlers';
+import { RouteHandlersPage } from './server/route-handlers/RouteHandlers';
 
 function flattenRoutes(items: NavItem[]): string[] {
   const paths: string[] = [];
@@ -64,7 +64,7 @@ export default async function DocsPage({
       currentView === 'preview') {
     
     return (
-      <RouteHandlers pageTitle={pageTitle} />
+      <RouteHandlersPage pageTitle={pageTitle} />
     );
   }
 
