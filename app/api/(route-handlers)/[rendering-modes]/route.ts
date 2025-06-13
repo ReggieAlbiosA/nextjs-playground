@@ -9,7 +9,8 @@ export async function GET(
 ) {
   const { 'rendering-modes': mode } = await params;
 
-  const binanceApiUrl = 'https://api3.binance.com/api/v3/ticker/price?symbol=BTCUSDT';
+  // ✅ Use your own proxy API route instead of direct Binance call
+  const binanceApiUrl = `${process.env.BETTER_AUTH_URL}/api/binance-proxy?symbol=BTCUSDT`;
 
   const fetchOptions = {
     headers: {
@@ -22,7 +23,7 @@ export async function GET(
     const fetchBinance = async (fetchConfig: RequestInit) => {
       const response = await fetch(binanceApiUrl, fetchConfig);
       if (!response.ok) {
-        throw new Error(`Binance API responded with status: ${response.status} ${response.statusText}`);
+        throw new Error(`Proxy API responded with status: ${response.status} ${response.statusText}`);
       }
       const data = await response.json();
       return parseFloat(data.price);
