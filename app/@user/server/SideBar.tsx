@@ -126,7 +126,7 @@
                 { title: "Route Groups", url: "/docs/file-conventions/route-groups" },
                 { title: "Route Segment Config", url: "/docs/file-conventions/route-segment-config" },
                 { title: "src", url: "/docs/file-conventions/src" },
-                { title: "template.js", url: "/docs/file-conventions/template-js" },
+                { title: "template.js", url: "/docs/file-conventions/template" },
                 { title: "unauthorized.js", url: "/docs/file-conventions/unauthorized-js" },
                 {
                 title: "Metadata Files",

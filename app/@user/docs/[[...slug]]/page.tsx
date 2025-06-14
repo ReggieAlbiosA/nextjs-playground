@@ -3,7 +3,10 @@
 import React from 'react';
 // NEW: Import the navigation data from the central file
 import { buildingYourApplicationItems, apiReferenceItems, NavItem } from '@/lib/docs-navigation';
-import { RouteHandlersPage } from './server/route-handlers/RouteHandlers';
+
+
+import { RouteHandlersPage } from './server/(routing)/route-handlers/RouteHandlers';
+
 
 function flattenRoutes(items: NavItem[]): string[] {
   const paths: string[] = [];
@@ -56,31 +59,23 @@ export default async function DocsPage({
 
   const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
-
   const pageTitle = toTitleCase(resolvedParams.slug?.[resolvedParams.slug.length - 1] || 'Docs Home');
   const currentView = resolvedSearchParams.view || 'preview';
 
-  if (resolvedParams.slug?.[resolvedParams.slug.length - 1] === 'route-handlers' &&
-      currentView === 'preview') {
-    
-    return (
-      <RouteHandlersPage pageTitle={pageTitle} />
-    );
-  }
-
+   // FIXED: Join the slug array to get the full path for comparison
+  const fullSlug = resolvedParams.slug?.join('/') || '';
   // Fallback for all other pages
   return (
-    <section className="w-full space-y-8">
-      <header>
-        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
-          {pageTitle}
-        </h1>
-      </header>
-      <div className="p-8 border-2 border-dashed rounded-lg">
-         <p className="text-lg text-gray-500 dark:text-gray-400">
-            This is the <span className="font-semibold capitalize">{currentView}</span> view for &quot;{pageTitle}&quot;. Content is under construction.
-         </p>
-      </div>
-    </section>
+    <>
+      {fullSlug === 'routing/route-handlers' && currentView === 'preview' ? (
+        <RouteHandlersPage pageTitle={pageTitle} />
+      ) : fullSlug === 'file-conventions/template/demo-layout' ? (
+        <div className="p-6 bg-gray-800 rounded-lg"><h3 className="text-lg font-bold">You are on Page One</h3></div>
+      ) : fullSlug === 'file-conventions/template/demo-layout/page-two' ? (
+        <div className="p-6 bg-gray-800 rounded-lg"><h3 className="text-lg font-bold">You are on Page Two</h3></div>
+      ) : (
+        <></> // Fallback for other pages
+      )}
+    </>
   );
 }

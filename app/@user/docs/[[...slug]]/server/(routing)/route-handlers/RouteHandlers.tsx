@@ -1,6 +1,9 @@
 import LivePriceDataPage from "./LivePriceData";
 import AuthSimulation from "./client/AuthSimulation";
 
+export const dynamic = "force-dynamic";
+
+
 export function RouteHandlersPage({ pageTitle }: { pageTitle: string }) {
   return (
     <section className="w-full max-w-6xl px-4 py-8 mx-auto space-y-8">
@@ -10,7 +13,8 @@ export function RouteHandlersPage({ pageTitle }: { pageTitle: string }) {
           {pageTitle}
         </h1>
         <p className="max-w-2xl mx-auto text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-          Explore powerful Next.js features through interactive examples
+          Explore powerful Next.js 
+           through interactive examples
         </p>
       </header>
 
