@@ -4,7 +4,6 @@ import React from 'react';
 // NEW: Import the navigation data from the central file
 import { buildingYourApplicationItems, apiReferenceItems, NavItem } from '@/lib/docs-navigation';
 
-
 import { RouteHandlersPage } from './server/(routing)/route-handlers/RouteHandlers';
 
 
@@ -69,10 +68,6 @@ export default async function DocsPage({
     <>
       {fullSlug === 'routing/route-handlers' && currentView === 'preview' ? (
         <RouteHandlersPage pageTitle={pageTitle} />
-      ) : fullSlug === 'file-conventions/template/demo-layout' ? (
-        <div className="p-6 bg-gray-800 rounded-lg"><h3 className="text-lg font-bold">You are on Page One</h3></div>
-      ) : fullSlug === 'file-conventions/template/demo-layout/page-two' ? (
-        <div className="p-6 bg-gray-800 rounded-lg"><h3 className="text-lg font-bold">You are on Page Two</h3></div>
       ) : (
         <></> // Fallback for other pages
       )}

@@ -3,7 +3,6 @@ import AuthSimulation from "./client/AuthSimulation";
 
 export const dynamic = "force-dynamic";
 
-
 export function RouteHandlersPage({ pageTitle }: { pageTitle: string }) {
   return (
     <section className="w-full max-w-6xl px-4 py-8 mx-auto space-y-8">

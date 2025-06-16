@@ -1,20 +1,21 @@
 import React from 'react';
-import { LayoutCounter } from './server/(file-system-convention)/template/client/LayoutCounter';
+// import { LayoutCounter } from './server/(file-system-convention)/template/client/LayoutCounter';
 import Link from 'next/link';
+import { LayoutCounter } from '../file-conventions/template/client/LayoutCounter';
 
 export default async function DocsLayout({
   children,
-  params,
+  // params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ slug?: string[] }>;
+  // params: Promise<{ slug?: string[] }>;
 }) {
-  const resolvedParams = await params;
-  const isTemplateRoute = resolvedParams.slug?.includes('template');
+  // const resolvedParams = await params;
+  // const isTemplateRoute = resolvedParams.slug?.includes('template');
 
   return (
     <>
-      {isTemplateRoute ? (
+      {/* {isTemplateRoute ? ( */}
         <div className="p-6 border border-green-500 border-dashed rounded-lg">
               <div className="p-4 rounded-t-lg bg-green-900/50">
                 <h2 className="text-xl font-semibold text-green-300">/demo-layout/layout.tsx</h2>
@@ -31,9 +32,9 @@ export default async function DocsLayout({
                 {children}
               </div>
             </div>
-      ) : (
-        <>{children}</>
-      )}
+      {/* ) : ( */}
+        {/* <>{children}</> */}
+      {/* )} */}
     </>
   );
 }

@@ -3,9 +3,9 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useMemo } from "react";
-import type { NavItem } from "../client/NavMain"; 
-import { AppSidebar } from "../client/AppSidebar"; 
-import { NavMain } from "../client/NavMain";
+import type { NavItem } from "./NavMain"; 
+import { AppSidebar } from "./AppSidebar"; 
+import { NavMain } from "./NavMain";
 
 // --- THE MODIFIED HELPER FUNCTION ---
 const addModeToLinks = (items: NavItem[], mode: string): NavItem[] => {

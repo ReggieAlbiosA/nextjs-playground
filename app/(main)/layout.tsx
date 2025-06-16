@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
-import "./globals.css";
+import "../globals.css";
 import Script from "next/script";
 
 // * dependencies
@@ -89,7 +89,7 @@ export default async function RootLayout({
               <div className="flex flex-col flex-1">
                 <Header />
                 <main className="container flex-1 px-4 py-8 mx-auto sm:px-6 lg:px-8">
-                  {user || children}
+                  {user}
                 </main>
               </div>
             </SidebarProvider>
