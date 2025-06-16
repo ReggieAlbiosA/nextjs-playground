@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
+import Script from "next/script";
 
 // * dependencies
 import { ThemeProvider } from "next-themes";
@@ -51,6 +52,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+
+      <head>
+             <Script
+          crossOrigin="anonymous"
+          src="//unpkg.com/react-scan/dist/auto.global.js"
+        />
+      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
       >
