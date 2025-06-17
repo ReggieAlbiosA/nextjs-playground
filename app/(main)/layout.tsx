@@ -54,10 +54,10 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
 
       <head>
-             <Script
+             {/* <Script
           crossOrigin="anonymous"
           src="//unpkg.com/react-scan/dist/auto.global.js"
-        />
+        /> */}
       </head>
 
       <body
